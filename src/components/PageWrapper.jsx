@@ -21,6 +21,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import PetsIcon from '@mui/icons-material/Pets';
 import EggIcon from '@mui/icons-material/Egg';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { Link } from 'react-router-dom/dist';
 
 const drawerWidth = 240;
@@ -92,6 +93,8 @@ const Drawer = styled(MuiDrawer, {
 
 const PageWrapper = ({ children }) => {
   const theme = useTheme();
+  const [cadastro, setCadastro] = React.useState(false);
+  const [tabelas, setTabelas] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -100,13 +103,6 @@ const PageWrapper = ({ children }) => {
 
   const handleDrawerClose = () => {
     setOpen(false);
-    setListOpen(false);
-  };
-
-  const [listOpen, setListOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setListOpen(!listOpen);
   };
 
   return (
@@ -149,16 +145,16 @@ const PageWrapper = ({ children }) => {
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-          <ListItemButton onClick={handleClick}>
+          <ListItemButton onClick={() => setCadastro(!cadastro)}>
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
             <ListItemText primary="Cadastro" />
-            {listOpen ? <ExpandLess /> : <ExpandMore />}
+            {cadastro ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-          <Collapse in={listOpen} timeout="auto" unmountOnExit>
+          <Collapse in={cadastro} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Link to="/animais" className="navigator-link">
+              <Link to="/cadastro/animais" className="navigator-link">
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <PetsIcon />
@@ -166,12 +162,42 @@ const PageWrapper = ({ children }) => {
                   <ListItemText primary="Animais" />
                 </ListItemButton>
               </Link>
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemIcon>
-                  <EggIcon />
-                </ListItemIcon>
-                <ListItemText primary="Nutrição" />
-              </ListItemButton>
+              <Link to="/cadastro/nutricao" className="navigator-link">
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon>
+                    <EggIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Nutrição" />
+                </ListItemButton>
+              </Link>
+            </List>
+          </Collapse>
+
+          <ListItemButton onClick={() => setTabelas(!tabelas)}>
+            <ListItemIcon>
+              <FormatListNumberedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Tabelas" />
+            {tabelas ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={tabelas} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Link to="/tabelas/animais" className="navigator-link">
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon>
+                    <PetsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Animais" />
+                </ListItemButton>
+              </Link>
+              <Link to="/tabelas/nutricao" className="navigator-link">
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon>
+                    <EggIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Nutrição" />
+                </ListItemButton>
+              </Link>
             </List>
           </Collapse>
         </List>
